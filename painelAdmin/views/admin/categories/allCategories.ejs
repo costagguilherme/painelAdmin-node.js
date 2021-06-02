@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <%- include ('../../partials/header.ejs') %>
+<body>
+    <%- include ('../../partials/navbar.ejs') %>
+
+    <div class="container">
+    <hr>
+    <h2>Categorias</h2>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Slug</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+        <% categorias.forEach(category => { %>
+            <tr>
+                <td><%= category.id %></td>
+                <td><%= category.title %></td>
+                <td><%= category.slug %></td>
+                <td>
+                    <form method="post" action="/categories/delete" style="display: inline;" onsubmit="confirmarExclusao(event, this)">
+                        <input type="hidden" name="id" value="<%= category.id %>">
+                        <button type="submit" class="btn btn-danger">DEL</button>
+                    </form>
+                    <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">EDIT</a>
+                </td>
+            </tr>
+
+        <% }) %>
+        </tbody>
+    </table>
+    <a href="/admin/categories/new" class="btn btn-success">Criar nova categoria</a>
+</div>
+
+</body>
+    <%- include ('../../partials/footer.ejs') %>
+</html>
+
+<script>
+    function confirmarExclusao(event, form) {
+        event.preventDefault()
+        let decisao = confirm("Você quer deletar essa categoria?")
+
+        if (decisao == true) {
+            form.submit()
+        }
+    }
+</script>

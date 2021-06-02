@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <%- include ('../../partials/header.ejs') %>
+<body>
+    <%- include ('../../partials/navbar.ejs') %>
+
+    <div class="container">
+    <hr>
+    <h2>Artigos</h2>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Slug</th>
+                <th>Categoria</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% articles.forEach(article => { %>
+                <tr>
+                    <td><%= article.id %></td>
+                    <td><%= article.title %></td>
+                    <td><%= article.slug %></td>
+                    <td><%= article.category.title %></td>
+                    <td>
+                        <form method="post" action="/articles/delete" style="display: inline;" onsubmit="confirmarExclusao(event, this)">
+                            <input type="hidden" name="id" value="<%= article.id %>">
+                            <button type="submit" class="btn btn-danger">DEL</button>
+                        </form>
+                        <a href="" class="btn btn-warning">EDIT</a>
+                    </td>
+                </tr>
+
+            <% }) %>
+        </tbody>
+    </table>
+    <a href="/admin/articles/new" class="btn btn-success">Criar novo artigo</a>
+</div>
+
+</body>
+<%- include ('../../partials/footer.ejs') %>
+
+</html>
+
+<script>
+    function confirmarExclusao(event, form) {
+        event.preventDefault()
+        let decisao = confirm("Você quer deletar este artigo?")
+
+        if (decisao == true) {
+            form.submit()
+        }
+    }
+</script>
